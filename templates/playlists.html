@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+	* {
+	  box-sizing: border-box;
+	}
+	
+	input[type=text], select, textarea {
+	  width: 100%;
+	  padding: 12px;
+	  border: 1px solid #ccc;
+	  border-radius: 4px;
+	  resize: vertical;
+	}
+	
+	label {
+	  padding: 12px 12px 12px 0;
+	  display: inline-block;
+	}
+	
+	input[type=submit] {
+	  background-color: #4CAF50;
+	  color: white;
+	  padding: 12px 20px;
+	  border: none;
+	  border-radius: 4px;
+	  cursor: pointer;
+	  float: right;
+	}
+	
+	input[type=submit]:hover {
+	  background-color: #45a049;
+	}
+	
+	.container {
+	  margin-left: 600px;
+	  border-radius: 5px;
+	  background-color: pink;
+	  padding: 20px;
+	  width:50%;
+	  height:400px;
+	  align-self: center;
+	}
+	
+	.col-25 {
+	  float: left;
+	  width: 25%;
+	  margin-top: 6px;
+	}
+	
+
+</style>
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<div align='center'>
+    <h1> My Playlists </h1>
+	<div id="space"></div>
+		<ul class="w3-ul w3-card-4"  style="width:30%">
+		{% for p_name in playlists %}	
+
+			<li><a href={{ url_for('songs_page', playlist_name=p_name) }}>{{p_name}}</a></li>
+
+		{% endfor %}
+		</ul>
+</div>
+		
+
+<div id='space'></div>
+	<div class="container">
+		<h3 align="center"> Create a New Playlist! </h3>
+
+		<form onsubmit="myFunction()" id = "myForm" method="post">
+			<div class="row">
+				<div class="col-25"> </div>
+		 		 <div class="col-25">
+					<label for="fname">Enter Playlist Name : </label>
+		  		</div>
+		  		<div class="col-25">
+					<input type="text" id = "playlist_name" name = "playlist_name" placeholder="New Playlist name..">
+		  		</div>
+		  		<div class="col-25">
+				</div>
+		  		<div class="col-25"> </div>
+			</div>
+		
+		<div id="space"></div>
+		
+		<div class="row">
+			<div class="col-25"> </div>
+			<div class="col-25">
+			<input align="center" type="submit" value="Submit">
+			</div>
+			<br>
+		</div>
+
+	</div>	
+</form>
+
+<script>
+		
+	function myFunction() 
+	{
+		name = document.getElementById("playlist_name").value;
+
+		form = document.getElementById("myForm");
+		alert(name)
+		path = "/addsong/".concat(name);
+		form.setAttribute("action", path)
+	}
+
+</script>
+{% endblock %}

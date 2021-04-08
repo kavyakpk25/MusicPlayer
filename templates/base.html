@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<style>
+
+	body {
+background-color: lightblue;
+background-repeat: no-repeat;
+background-size: cover;
+}
+
+#space 
+	{height:100px; width:300px;}
+#navbar {
+  list-style-type: none;
+  margin:0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #111;
+}
+
+#navbar_obj {
+  float:left;
+}
+
+#navbar_obj a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 20px 50px;
+  font-size: 30px;
+  text-decoration: none;
+  background-color: #111;
+}
+
+h1 
+{
+    font-family:'Times New Roman', Times, serif;
+    font-size: 50px;
+    background-color: white;
+    width: 50%;
+}
+/* Change the link color to #111 (black) on hover */
+#navbar_obj a:hover {
+  background-color: grey;
+}
+</style>
+<html>
+ 
+<body background="{{ url_for('static', filename='wallpaper3.jpg') }}">
+    <ul id="navbar">
+        <li id="navbar_obj"><a href="#home">Home</a></li>
+        <li id="navbar_obj"><a href="#news">My Playlists</a></li>
+        <li id="navbar_obj"><a href="#contact">My Songs</a></li>
+        <li id="navbar_obj"><a href="#about">Recommendations</a></li>
+      </ul>
+      <div id="space"></div>
+    {% block content %}
+   
+    {% endblock %}
+</body>
+</html>

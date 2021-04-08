@@ -1,0 +1,21 @@
+
+{% extends 'base.html' %}
+<style>	
+	
+	#cover {height:300px; width:1000px;}
+	audio:hover {transform: scale(1.1);filter: drop-shadow(2px 3px 3px #333);}
+	#space 
+	{height:100px; width:300px;}
+	
+</style>
+{% block content %}
+	<div align='center'>
+	<h1>  Song Player </h1>
+	<img src ={{ url_for('static', filename='music.jpg') }} id="cover"/><br>
+	<audio controls>
+	<h2>	{{song_name}} </h2>
+    <source src="{{ url_for('static', filename='letitgo.mp3') }}" type="audio/mpeg">
+	</audio>
+	</div>
+
+{% endblock %}

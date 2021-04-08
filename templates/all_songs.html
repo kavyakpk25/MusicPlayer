@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+<style>
+#song a:hover {
+  background-color: grey;
+}
+</style>
+{% block content %}
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<div align='center'>
+	<h1>  All songs </h1>
+  <div id='space'></div>
+    <ul style="background-color: lightcoral;; width:30%;" class="w3-ul w3-card-4"  >
+     
+
+      {% for song in songs %}
+        <li class="w3-padding-small"> 
+          <a id="song" href={{ url_for('music_player', song_name=song) }} style="font-family: fantasy;font-size: 30px;">{{ song }}</a>
+        </li>
+          <br>
+         
+      {% endfor %}
+    </ul> 
+
+</div>
+{% endblock %}
