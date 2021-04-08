@@ -7,7 +7,7 @@
 	* {
 	  box-sizing: border-box;
 	}
-	
+
 	input[type=text], select, textarea {
 	  width: 100%;
 	  padding: 12px;
@@ -15,12 +15,12 @@
 	  border-radius: 4px;
 	  resize: vertical;
 	}
-	
+
 	label {
 	  padding: 12px 12px 12px 0;
 	  display: inline-block;
 	}
-	
+
 	input[type=submit] {
 	  background-color: #4CAF50;
 	  color: white;
@@ -29,11 +29,11 @@
 	  border-radius: 4px;
 	  cursor: pointer;
 	}
-	
+
 	input[type=submit]:hover {
 	  background-color: #45a049;
 	}
-	
+
 	.container {
 	  margin-left: 50px;
 	  border-radius: 5px;
@@ -42,30 +42,30 @@
 	  width:50%;
 	  align-self: center;
 	}
-	
+
 	.col-35 {
 	  width: 35%;
 	  margin-top: 6px;
 	}
 
 
-	
+
 </style>
 <div align="center">
 <h1> Select songs!!</h1>
 <div id="space"></div>
 <div class="container">
 <form action='/playlists' method="post">
-	
+
 	<input type="hidden" name="playlist_name" value={{playlist_name}}>
 	<ul class="w3-ul w3-card-4"  style="width:30%">
 
 	{% for song in songs %}
 	<div class="row">
 		<div class="col-35"> </div>
-			<li><h3><input type="checkbox"  name="selected-songs" value={{song}}> {{ song }} </h3> </li>
+			<li><h3><input type="checkbox"  name="selected-songs" value="{{song}}"> {{ song }} </h3> </li>
 	</div>
-		
+
 	{% endfor %}
 </ul>
 	<div id="space"></div>
@@ -73,7 +73,7 @@
 		<div class="col-35"> </div>
 		<input type="submit" value="Submit">
 	</div>
-	
+
 </form>
 </div>
 </div>

@@ -2,6 +2,7 @@ import json
 from flask import Flask, redirect, url_for, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+import os
 #import subprocess
 
 app = Flask(__name__)
@@ -16,7 +17,7 @@ class Song(db.Model):
 	song_name = db.Column(db.String(100))
 	artist = db.Column(db.String(100))
 	genre = db.Column(db.String(100))
-	
+
 class Playlist(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
 	name = db.Column(db.String(100))
@@ -39,8 +40,10 @@ def playlist_page():
 	if request.method == 'POST':
 		playlist_name = request.form['playlist_name']
 		selected_songs = request.form.getlist('selected-songs')
+		print(selected_songs)
 		s_objects = Song.query.filter(Song.song_name.in_(selected_songs))
 		song_ids = [p.songid for p in s_objects]
+		print(song_ids)
 		for song_id in song_ids:
 			entry = Playlist(name = playlist_name, songid = song_id)
 			db.session.add(entry)
@@ -58,14 +61,16 @@ def all_songs_page():
 
 @app.route("/playsong/<song_name>", methods = ["POST", "GET"])
 def music_player(song_name):
-	return render_template('play_song.html', song_name = song_name)
+	path = os.path.join('music', song_name)
+	print(path)
+	return render_template('play_song.html', song_name = song_name, path = path)
 
 @app.route("/addsong/<playlist_name>", methods = ["POST", "GET"])
 def add_songs_playlist(playlist_name):
 	if request.method == 'POST':
 		playlist_name = request.form['playlist_name']
 		print(playlist_name)
-		
+
 	s_objects = Song.query.all()
 	all_song_names = [p.song_name for p in s_objects]
 
