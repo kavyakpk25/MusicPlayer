@@ -8,16 +8,17 @@
 	<h1>  Playlist: {{ playlist_name }} </h1>
   <div id='space'></div>
     <ul class="w3-ul w3-card-4"  style="width:30%">
-     
+
 
       {% for song in songs %}
-        <li class="w3-padding-small"> 
-          <a href={{ url_for('music_player', song_name=song) }}>{{ song }}</a>
+        <li class="w3-padding-small">
+          <a href={{ url_for('music_player', song_name=song.song_name) }}>{{ song.song_name }}</a>
         </li>
+				  <a href = '/playlistsongs/delete/{{song.songid}}'>Delete</a>
           <br>
-         
+
       {% endfor %}
-    </ul> 
+    </ul>
     <button onclick= "location.href='{{ url_for("add_songs_playlist", playlist_name=playlist_name) }}';" id="myButton" >Add more songs to playlist!</button>
 </div>
 

@@ -63,7 +63,7 @@
 	{% for song in songs %}
 	<div class="row">
 		<div class="col-35"> </div>
-			<li><h3><input type="checkbox"  name="selected-songs" value="{{song}}"> {{ song }} </h3> </li>
+			<li><h3><input type="checkbox"  name="selected-songs" value={{song.id}}> {{ song.song_name }} </h3> </li>
 	</div>
 
 	{% endfor %}

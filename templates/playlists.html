@@ -5,7 +5,7 @@
 	* {
 	  box-sizing: border-box;
 	}
-	
+
 	input[type=text], select, textarea {
 	  width: 100%;
 	  padding: 12px;
@@ -13,12 +13,12 @@
 	  border-radius: 4px;
 	  resize: vertical;
 	}
-	
+
 	label {
 	  padding: 12px 12px 12px 0;
 	  display: inline-block;
 	}
-	
+
 	input[type=submit] {
 	  background-color: #4CAF50;
 	  color: white;
@@ -28,11 +28,11 @@
 	  cursor: pointer;
 	  float: right;
 	}
-	
+
 	input[type=submit]:hover {
 	  background-color: #45a049;
 	}
-	
+
 	.container {
 	  margin-left: 600px;
 	  border-radius: 5px;
@@ -42,13 +42,13 @@
 	  height:400px;
 	  align-self: center;
 	}
-	
+
 	.col-25 {
 	  float: left;
 	  width: 25%;
 	  margin-top: 6px;
 	}
-	
+
 
 </style>
 
@@ -57,14 +57,14 @@
     <h1> My Playlists </h1>
 	<div id="space"></div>
 		<ul class="w3-ul w3-card-4"  style="width:30%">
-		{% for p_name in playlists %}	
+		{% for p_name in playlists %}
 
 			<li><a href={{ url_for('songs_page', playlist_name=p_name) }}>{{p_name}}</a></li>
-
+			<a href = '/delete/{{p_name}}'>Delete</a>
 		{% endfor %}
 		</ul>
 </div>
-		
+
 
 <div id='space'></div>
 	<div class="container">
@@ -83,9 +83,9 @@
 				</div>
 		  		<div class="col-25"> </div>
 			</div>
-		
+
 		<div id="space"></div>
-		
+
 		<div class="row">
 			<div class="col-25"> </div>
 			<div class="col-25">
@@ -94,12 +94,12 @@
 			<br>
 		</div>
 
-	</div>	
+	</div>
 </form>
 
 <script>
-		
-	function myFunction() 
+
+	function myFunction()
 	{
 		name = document.getElementById("playlist_name").value;
 

@@ -11,16 +11,16 @@
 	<h1>  All songs </h1>
   <div id='space'></div>
     <ul style="background-color: lightcoral;; width:30%;" class="w3-ul w3-card-4"  >
-     
 
       {% for song in songs %}
-        <li class="w3-padding-small"> 
-          <a id="song" href={{ url_for('music_player', song_name=song) }} style="font-family: fantasy;font-size: 30px;">{{ song }}</a>
+        <li class="w3-padding-small">
+          <a id="song" href={{ url_for('music_player', song_name=song.song_name) }} style="font-family: fantasy;font-size: 30px;">{{ song.song_name }}</a>
         </li>
           <br>
-         
+						<a href = 'allsongs/delete/{{song.songid}}'>Delete</a>
+
       {% endfor %}
-    </ul> 
+    </ul>
 
 </div>
 {% endblock %}
