@@ -22,6 +22,15 @@ class Playlist(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
 	name = db.Column(db.String(100))
 	songid = db.Column(db.Integer)
+class Recommended_playlist(db.Model):
+	id = db.Column(db.Integer, primary_key = True)
+	name = db.Column(db.String(100))
+	songid = db.Column(db.Integer)
+
+#def rec(db,song_name):
+
+
+
 
 @app.route("/", methods = ["POST", "GET"])
 def home():
@@ -33,6 +42,82 @@ def music_player(song_name):
 	song_names = [p.song_name for p in s_objects]
 	artist_names = [p.artist for p in s_objects]
 	path = os.path.join('music', song_name)
+	#rec(db,song_name)
+	
+	r_objects = Recommended_playlist.query.all()
+	r_name=[p.name for p in r_objects]
+	s = Song.query.filter_by(song_name = song_name)
+	song_id=s[0].songid
+
+	current = Song.query.filter_by(songid = song_id)
+
+	current=list(current)[0]
+	print("current",current)
+
+	p_objects=Song.query.all()
+	metric = dict()
+	print("p_objects",p_objects)
+	for i in p_objects:
+		if i.songid != song_id:
+			score=0
+			score=int(i.artist == current.artist) + int(i.genre == current.genre)
+			metric[i.songid]=score
+			print("HEREEE",metric)
+	metric=dict(sorted(metric.items(), key=lambda item: item[1],reverse=True))
+	all_song_names = [p.songid for p in p_objects]
+
+	print(r_objects)
+	if len(list(r_objects)) == 0:
+		final= [i[0] for i in list(metric.items())[:10]]
+		print("HEREEE",final)
+		p_objects = Song.query.filter(Song.songid.in_(final))
+		print("PPPPPPPPPPPPPPPP",list(p_objects))
+		i=1
+		for p in p_objects:
+			entry = Recommended_playlist(id = i,name = p.song_name,songid=p.songid)
+			db.session.add(entry)
+			i+=1
+		db.session.commit()
+
+	else:
+		l=list(metric.items())
+		print("LLL",l)
+		pos_2=0
+		pos_1=0
+		i=0
+		while l[i] == 2 and i in range(len(l)):
+			pos_2=i
+			i+=1
+		while l[i] == 1 and i in range(len(l)):
+			pos_1=i
+			i+=1
+
+		l2=l[:pos_2]
+		print("HEREE",l2)
+		l1=l[pos_2+1:pos_1]
+		l0=l[pos_1:]
+		ll=[l2,l1,l0]
+
+		for l in ll:
+			end=[]
+			while i in range(len(l)):
+				if l[i] in r_name:
+					end.append(l.pop(i))
+				i+=1
+			l=l+end
+		print("HEREE",l2+l1+l0)
+		final=[x[0] for x in l2+l1+l0[:10]]
+		j=1
+		p_objects = Song.query.filter(Song.songid.in_(final))
+		for i in p_objects:
+			instance = Recommended_playlist.query.filter(Recommended_playlist.id == j)
+			d={"name":i.song_name,"songid":i.songid}
+			instance.update(d)
+			j+=1
+			db.session.commit()
+
+
+
 	return render_template('play_song.html',songs = song_names,artists=artist_names,song_name = song_name,path=path)
 
 
@@ -41,9 +126,92 @@ def music_player_playlist(song_name,playlist_name):
 	p_objects = Playlist.query.filter_by(name = playlist_name)
 	songid_list = [p.songid for p in p_objects]
 	s_objects = Song.query.filter(Song.songid.in_(songid_list))
-	song_names = [p.song_name for p in s_objects]	
+	song_names = [p.song_name for p in s_objects]
 	artist_names = [p.artist for p in s_objects]
 	path = os.path.join('music', song_name)
+
+	r_objects = Recommended_playlist.query.all()
+	r_name=[p.name for p in r_objects]
+	s = Song.query.filter_by(song_name = song_name)
+	song_id=s[0].songid
+
+	current = Song.query.filter_by(songid = song_id)
+
+	current=list(current)[0]
+	print("current",current)
+
+	p_objects=Song.query.all()
+	metric = dict()
+	print("p_objects",p_objects)
+	for i in p_objects:
+		if i.songid != song_id:
+			score=0
+			score=int(i.artist == current.artist) + int(i.genre == current.genre)
+			metric[i.songid]=score
+			print("HEREEE",metric)
+	metric=dict(sorted(metric.items(), key=lambda item: item[1],reverse=True))
+	all_song_names = [p.songid for p in p_objects]
+
+	print(r_objects)
+	if len(list(r_objects)) == 0:
+		final= [i[0] for i in list(metric.items())[:10]]
+		print("HEREEE",final)
+		p_objects = Song.query.filter(Song.songid.in_(final))
+		print("PPPPPPPPPPPPPPPP",list(p_objects))
+		i=1
+		for p in p_objects:
+			entry = Recommended_playlist(id = i,name = p.song_name,songid=p.songid)
+			db.session.add(entry)
+			i+=1
+		db.session.commit()
+
+	else:
+		l=list(metric.items())
+		print("LLL",l)
+		pos_2=0
+		pos_1=0
+		i=0
+		while l[i] == 2 and i in range(len(l)):
+			pos_2=i
+			i+=1
+		while l[i] == 1 and i in range(len(l)):
+			pos_1=i
+			i+=1
+
+		l2=l[:pos_2]
+		print("HEREE",l2)
+		l1=l[pos_2+1:pos_1]
+		l0=l[pos_1:]
+		ll=[l2,l1,l0]
+
+		for l in ll:
+			end=[]
+			while i in range(len(l)):
+				if l[i] in r_name:
+					end.append(l.pop(i))
+				i+=1
+			l=l+end
+		print("HEREE",l2+l1+l0)
+		final=[x[0] for x in l2+l1+l0[:10]]
+		j=1
+		p_objects = Song.query.filter(Song.songid.in_(final))
+		for i in p_objects:
+			instance = Recommended_playlist.query.filter(Recommended_playlist.id == j)
+			d={"name":i.song_name,"songid":i.songid}
+			instance.update(d)
+			j+=1
+			db.session.commit()
+	return render_template('play_song.html',songs = song_names,artists=artist_names,song_name = song_name,path=path)
+
+@app.route("/playsong/recommendations/<song_name>", methods = ["POST", "GET"])
+def music(song_name,playlist_name):
+	p_objects = Playlist.query.filter_by(name = playlist_name)
+	songid_list = [p.songid for p in p_objects]
+	s_objects = Song.query.filter(Song.songid.in_(songid_list))
+	song_names = [p.song_name for p in s_objects]
+	artist_names = [p.artist for p in s_objects]
+	path = os.path.join('music', song_name)
+	rec(db.model,song_name)
 	return render_template('play_song.html',songs = song_names,artists=artist_names,song_name = song_name,path=path)
 
 @app.route("/songs/<playlist_name>", methods = ["POST", "GET"])
@@ -85,7 +253,9 @@ def all_songs_page():
 
 @app.route("/recommendations", methods = ["POST", "GET"])
 def recommendations():
-	s_objects = Song.query.all()
+	r= Recommended_playlist.query.all()
+	r=[i.songid for i in r]
+	s_objects = Song.query.filter(Song.songid.in_(r))
 	song_names = [p.song_name for p in s_objects]
 	artist_names=  [p.artist for p in s_objects]
 	final=[(song_names[i],artist_names[i]) for i in range(0,len(song_names))]
@@ -102,10 +272,10 @@ def add_songs_playlist(playlist_name):
 	if request.method == 'POST':
 		playlist_name = request.form['playlist_name']
 		print(playlist_name)
-		
+
 		query_distinct = Playlist.query.with_entities(Playlist.name).distinct()
 		distinct_playlists = [r.name for r in query_distinct]
-		
+
 		if(playlist_name in distinct_playlists):
 			message="This playlist already exists, please enter another name."
 			return render_template('playlists.html', playlists = distinct_playlists,message=message)
