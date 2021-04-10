@@ -11,6 +11,7 @@ background-size: cover;
 #space 
 	{height:100px; width:300px;}
 #navbar {
+  font-family:'Times New Roman', Times, serif;
   list-style-type: none;
   margin:0;
   padding: 0;
@@ -45,17 +46,32 @@ h1
 }
 </style>
 <html>
- 
-<body background="{{ url_for('static', filename='wallpaper3.jpg') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style_player.css') }}">
+<body>
     <ul id="navbar">
-        <li id="navbar_obj"><a href="#home">Home</a></li>
-        <li id="navbar_obj"><a href="#news">My Playlists</a></li>
-        <li id="navbar_obj"><a href="#contact">My Songs</a></li>
-        <li id="navbar_obj"><a href="#about">Recommendations</a></li>
+        <li id="navbar_obj"><a href="{{ url_for('home') }}">Home</a></li>
+        <li id="navbar_obj"><a href="{{ url_for('playlist_page') }}">My Playlists</a></li>
+        <li id="navbar_obj"><a href="{{ url_for('all_songs_page') }}">My Songs</a></li>
+        <li id="navbar_obj"><a href="{{ url_for('recommendations') }}">Recommendations</a></li>
       </ul>
       <div id="space"></div>
     {% block content %}
    
     {% endblock %}
 </body>
+<script>
+  const interval = setInterval(function() {
+    let red = Math.floor(Math.random() * 256) + 64;
+    let green = Math.floor(Math.random() * 256) + 64;
+    let blue = Math.floor(Math.random() * 256) + 64;
+    
+    // Construct a color withe the given values
+    let bgColor = "rgb(" + red + "," + green + "," + blue + ")";
+    
+    // Set the background to that color
+    document.body.style.background = bgColor;
+     }, 2000);
+  </script>
 </html>
+

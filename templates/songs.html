@@ -1,24 +1,39 @@
 
 {% extends 'base.html' %}
 {% block content %}
-
+<style>
+  	button  {
+	  background-color: white;
+	  color: black;
+	  padding: 12px 20px;
+	  width: 200px;
+	  border: none;
+	  border-radius: 10px;
+    
+	  cursor: pointer;
+	  font-size: 3rem;
+	}
+</style>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 <div align='center'>
-	<h1>  Playlist: {{ playlist_name }} </h1>
+  <div style="font-size: 3rem; font-family: 'Times New Roman', Times, serif;" align='center'>Playlist: {{ playlist_name }}</div>
   <div id='space'></div>
     <ul class="w3-ul w3-card-4"  style="width:30%">
      
 
       {% for song in songs %}
         <li class="w3-padding-small"> 
-          <a href={{ url_for('music_player', song_name=song) }}>{{ song }}</a>
+          <a href={{ url_for('music_player_playlist', song_name=song.song_name,playlist_name=playlist_name) }} style="font-family: fantasy;font-size: 30px;">{{ song.song_name }}</a>
         </li>
+        <a href = '/playlistsongs/delete/{{song.songid}}'>Delete</a>
+        <br>
           <br>
          
       {% endfor %}
     </ul> 
-    <button onclick= "location.href='{{ url_for("add_songs_playlist", playlist_name=playlist_name) }}';" id="myButton" >Add more songs to playlist!</button>
+    <div id="space"></div>
+    <button style="font-family: 'Times New Roman', Times, serif;font-size: 2rem;width:300px;" onclick= "location.href='{{ url_for("add_songs_playlist", playlist_name=playlist_name) }}';"  >Add more songs!</button>
 </div>
 
 
