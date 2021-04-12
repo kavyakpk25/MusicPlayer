@@ -27,11 +27,6 @@ class Recommended_playlist(db.Model):
 	name = db.Column(db.String(100))
 	songid = db.Column(db.Integer)
 
-#def rec(db,song_name):
-
-
-
-
 @app.route("/", methods = ["POST", "GET"])
 def home():
 	return render_template('home.html')
@@ -283,4 +278,4 @@ def delete_song_from_all_songs(songid):
     return redirect('/allsongs')
 
 if __name__ == "__main__":
-	app.run(port=5000, debug = True)
+	app.run(host="0.0.0.0")
