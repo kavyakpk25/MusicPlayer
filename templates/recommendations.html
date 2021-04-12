@@ -12,7 +12,7 @@
 
       {% for song in songs %}
         <li class="w3-padding-small" >
-          <a id="song" href={{ url_for('music_player', song_name=song.song_name) }} style="font-family: fantasy;font-size: 30px;">{{ song[0] }}   ~ {{song[1]}}</a>
+          <a id="song" href={{ url_for('music_player_recommender', song_name=song.song_name) }} style="font-family: fantasy;font-size: 30px;">{{ song.song_name }} ~ {{song.artist}}</a>
         </li>
 
           <br>
