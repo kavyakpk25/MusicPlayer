@@ -1,8 +1,7 @@
-
 {% extends 'base.html' %}
 <style>	
 	
-	#cover {height:300px; width:1000px;}
+	#cover {height:200px; width:1000px;}
 	audio:hover {transform: scale(1.1);filter: drop-shadow(2px 3px 3px #333);}
 	#space 
 	{height:100px; width:300px;}
@@ -10,8 +9,10 @@
 </style>
 {% block content %}
 	<div align='center'>
-	<h1>  Sync: Your all in one Music Player! </h1>
-	<img src ={{ url_for('static', filename='music.jpg') }} id="cover"/><br>
+	<div style="font-size: 3rem; font-family: 'Times New Roman', Times, serif;" align='center'>Sync: Your all-in-one Music Player!</div>
+	<br>
+	<br>
+	<img src ={{ url_for('static', filename='wallpaper4.jpg') }} style="height:1000px; width:2000px;" id="cover"/><br>
 	</div>
 
 {% endblock %}

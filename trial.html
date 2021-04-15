@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+
+<style>
+div &gt; img {
+  transition: 300ms;
+}
+div &gt; img:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+div {
+  box-sizing: border-box;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 0.3em;
+}
+
+body {
+  font-family: "Mukta", sans-serif;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  min-width: 100vw;
+  min-height: 100vh;
+  background: linear-gradient(-45deg, #FFCDD2 50%, #B2EBF2 50%);
+}
+
+div,
+section {
+  box-sizing: border-box;
+}
+
+.c-containter {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  padding: 1em;
+}
+
+.music-container {
+  position: relative;
+  display: flex;
+  box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.3);
+  max-height: 290px;
+}
+
+.album-cover {
+  flex: 1 0 30%;
+}
+.album-cover img {
+  width: 100%;
+  height: 100%;
+}
+
+.arrow {
+  position: absolute;
+  top: calc(50% - 2.5em);
+  background: rgba(255, 255, 255, 0.3);
+  border: 0;
+  width: 5em;
+  height: 5em;
+  cursor: pointer;
+}
+.arrow:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+.arrow img {
+  display: block;
+  width: 20px;
+  margin: 0 auto;
+}
+.arrow.left {
+  left: -5em;
+}
+.arrow.right {
+  right: -5em;
+}
+
+.music-player {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  background: white;
+  padding: 1em;
+  text-align: center;
+  width: 500px;
+  max-width: 500px;
+}
+.music-player__title {
+  margin: 0 0 0.1em 0;
+}
+.music-player__author {
+  margin: 0 0 0.5em 0;
+}
+
+.music-bar {
+  background: #efefef;
+  stroke-width: 1;
+  height: 8px;
+  width: 100%;
+}
+.music-bar:hover {
+  cursor: pointer;
+}
+.music-bar #length {
+  width: 0%;
+  background: #2196F3;
+  height: 100%;
+  transition: width linear 200ms;
+}
+
+.music-time {
+  display: flex;
+  flex-flow: row wrap;
+}
+.music-time__last {
+  margin-left: auto;
+}
+
+.music-order {
+  display: flex;
+  flex-flow: row wrap;
+}
+.music-order__shuffle, .music-order__loop {
+  width: 1.2em;
+  height: 1.2em;
+  opacity: 0.2;
+  margin: 0.3em 0;
+}
+.music-order__shuffle.is-loop, .music-order__loop.is-loop {
+  opacity: 1 !important;
+}
+.music-order__shuffle.is-loop-one, .music-order__loop.is-loop-one {
+  opacity: 1 !important;
+}
+.music-order__shuffle {
+  margin-left: auto;
+}
+
+.music-control {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  height: 2em;
+}
+.music-control__play {
+  width: 3em;
+  height: 3em;
+  margin: 0 1em;
+}
+.music-control__backward, .music-control__forward {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.disclaimer {
+  font-size: 0.9em;
+  margin-top: 1em;
+  text-align: center;
+}
+.disclaimer a {
+  color: #2196F3;
+}
+
+@media all and (max-width: 960px) {
+  .c-containter {
+    display: block;
+    overflow: auto;
+  }
+
+  .music-container {
+    flex-flow: column wrap;
+    max-height: inherit;
+    max-width: 270px;
+    margin: 0 auto;
+    overflow: auto;
+  }
+
+  .music-player {
+    width: 100%;
+    max-width: 100%;
+  }
+  .music-player__title {
+    font-size: 1.5em;
+  }
+  .music-player__author {
+    font-size: 1em;
+  }
+
+  .album-cover {
+    position: relative;
+    flex: 1 1 100%;
+    max-width: 270px;
+    max-height: 270px;
+  }
+
+  .arrow {
+    position: absolute;
+    top: calc(50% - 1.5em);
+    width: 3em;
+    height: 3em;
+  }
+  .arrow.left {
+    left: 0;
+  }
+  .arrow.right {
+    right: 0;
+  }
+
+  .music-control__play {
+    width: 2.2em;
+    height: 2.2em;
+  }
+}
+</style>
+<html>
+&lt;div class="c-containter"&gt;
+        &lt;div class="music-container"&gt;
+            &lt;section class="album-cover"&gt;
+
+                &lt;button class="arrow left" id="prev"&gt;
+                    &lt;img src="https://snowleo208.github.io/100-Days-of-Code/7.%20Music%20Player/img/arrow_left.svg" alt="Next Music"&gt;
+                &lt;/button&gt;
+                &lt;img src="http://res.cloudinary.com/dkzj4hdmd/image/upload/v1536400483/cover_yz2mak.jpg" class="cover" alt="From One To Nine by Marcel Pequel"&gt;
+
+                &lt;button class="arrow right" id="next"&gt;
+                    &lt;img src="https://snowleo208.github.io/100-Days-of-Code/7.%20Music%20Player/img/arrow_right.svg" alt="Next Music"&gt;
+                &lt;/button&gt;
+            &lt;/section&gt;
+            &lt;section class="music-player"&gt;
+                &lt;h1 class="music-player__title"&gt;&lt;/h1&gt;
+                &lt;h2 class="music-player__author"&gt;&lt;/h2&gt;
+                &lt;div class="music-time"&gt;
+                    &lt;p class="music-time__current"&gt;&lt;/p&gt;
+                    &lt;p class="music-time__last"&gt;&lt;/p&gt;
+                &lt;/div&gt;
+                &lt;div class="music-bar" id="progress"&gt;
+                    &lt;div id="length"&gt;&lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class="music-order"&gt;
+                    &lt;div class="music-order__loop is-loop" id="loop"&gt;
+                        &lt;img src="https://snowleo208.github.io/100-Days-of-Code/7.%20Music%20Player/img/loop.svg" alt="Loop music"&gt;
+                    &lt;/div&gt;
+                    &lt;div class="music-order__shuffle" id="shuffle"&gt;
+                        &lt;img src="https://snowleo208.github.io/100-Days-of-Code/7.%20Music%20Player/img/shuffle.svg" alt="Shuffle music"&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class="music-control"&gt;
+                    &lt;div class="music-control__backward" id="backward"&gt;
+                        &lt;img src="https://snowleo208.github.io/100-Days-of-Code/7.%20Music%20Player/img/backward.svg" alt="Backward"&gt;
+                    &lt;/div&gt;
+                    &lt;div class="music-control__play" id="play"&gt;
+                        &lt;img src="https://snowleo208.github.io/100-Days-of-Code/7.%20Music%20Player/img/play.svg" alt="Play" class="play"&gt;
+                    &lt;/div&gt;
+                    &lt;div class="music-control__forward" id="forward"&gt;
+                        &lt;img src="https://snowleo208.github.io/100-Days-of-Code/7.%20Music%20Player/img/forward.svg" alt="Forward"&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/section&gt;
+        &lt;/div&gt;
+        &lt;p class="disclaimer"&gt;Music by Marcel Pequel and audio from &lt;a href="http://freemusicarchive.org/music/Marcel_Pequel/From_One_To_Nine/" target="_blank" rel="noopener"&gt;Free Music Archive&lt;/a&gt;. Design idea from &lt;a href="https://dribbble.com/shots/2315906-Music-player-PSD-freebie-dailyui-Day-009" target="_blank" rel="noopener"&gt;Dima Blover&lt;/a&gt;&lt;/p&gt;
+    &lt;/div&gt;
+</body>
+<script>
+(function IIFE() {
+var list = [
+{
+	id: 1,
+	url:
+	"https://res.cloudinary.com/dkzj4hdmd/video/upload/v1536992860/Marcel_Pequel_-_01_-_One_rwev7k.mp3",
+	author: "Marcel Pequel",
+	title: "One",
+	cover:
+	"https://res.cloudinary.com/dkzj4hdmd/image/upload/v1536400483/cover_yz2mak.jpg" },
+
+{
+	id: 2,
+	url:
+	"https://res.cloudinary.com/dkzj4hdmd/video/upload/v1536992860/Marcel_Pequel_-_02_-_Two_yd6dv2.mp3",
+	author: "Marcel Pequel",
+	title: "Two",
+	cover:
+	"https://res.cloudinary.com/dkzj4hdmd/image/upload/v1536400483/cover_yz2mak.jpg" },
+
+{
+	id: 3,
+	url:
+	"https://res.cloudinary.com/dkzj4hdmd/video/upload/v1536992858/Marcel_Pequel_-_03_-_Three_y2k4q5.mp3",
+	author: "Marcel Pequel",
+	title: "Three",
+	cover:
+	"https://res.cloudinary.com/dkzj4hdmd/image/upload/v1536400483/cover_yz2mak.jpg" },
+
+{
+	id: 4,
+	url:
+	"https://res.cloudinary.com/dkzj4hdmd/video/upload/v1536992859/Marcel_Pequel_-_04_-_Four_ezfkr1.mp3",
+	author: "Marcel Pequel",
+	title: "Four",
+	cover:
+	"https://res.cloudinary.com/dkzj4hdmd/image/upload/v1536400483/cover_yz2mak.jpg" },
+
+{
+	id: 5,
+	url:
+	"https://res.cloudinary.com/dkzj4hdmd/video/upload/v1536992858/Marcel_Pequel_-_05_-_Five_pd3ql5.mp3",
+	author: "Marcel Pequel",
+	title: "Five",
+	cover:
+	"https://res.cloudinary.com/dkzj4hdmd/image/upload/v1536400483/cover_yz2mak.jpg" },
+
+{
+	id: 6,
+	url:
+	"https://res.cloudinary.com/dkzj4hdmd/video/upload/v1536400484/Marcel_Pequel_-_06_-_Six_o1nplu.mp3",
+	author: "Marcel Pequel",
+	title: "Six",
+	cover:
+	"https://res.cloudinary.com/dkzj4hdmd/image/upload/v1536400483/cover_yz2mak.jpg" },
+
+{
+	id: 7,
+	url:
+	"https://res.cloudinary.com/dkzj4hdmd/video/upload/v1536992858/Marcel_Pequel_-_07_-_Seven_mv0w1p.mp3",
+	author: "Marcel Pequel",
+	title: "Seven",
+	cover:
+	"https://res.cloudinary.com/dkzj4hdmd/image/upload/v1536400483/cover_yz2mak.jpg" },
+
+{
+	id: 8,
+	url:
+	"https://res.cloudinary.com/dkzj4hdmd/video/upload/v1536992858/Marcel_Pequel_-_08_-_Eight_sjcbbx.mp3",
+	author: "Marcel Pequel",
+	title: "Eight",
+	cover:
+	"https://res.cloudinary.com/dkzj4hdmd/image/upload/v1536400483/cover_yz2mak.jpg" },
+
+{
+	id: 9,
+	url:
+	"https://res.cloudinary.com/dkzj4hdmd/video/upload/v1536992857/Marcel_Pequel_-_09_-_Nine_y2zrx7.mp3",
+	author: "Marcel Pequel",
+	title: "Nine",
+	cover:
+	"https://res.cloudinary.com/dkzj4hdmd/image/upload/v1536400483/cover_yz2mak.jpg" }];
+
+
+
+var currentId = 0;
+var isPlaying = false;
+var isLoop = true;
+var isShuffle = false;
+var currentAudio = "music1";
+var timer = null;
+var loopOne = false;
+
+var currentTimeIndicator = document.querySelector(".music-time__current");
+var leftTimeIndicator = document.querySelector(".music-time__last");
+var progressBar = document.getElementById("length");
+var playBtn = document.querySelector(".play");
+var cover = document.querySelector(".cover");
+var title = document.querySelector(".music-player__title");
+var author = document.querySelector(".music-player__author");
+
+var loopBtn = document.getElementById("loop");
+var shuffleBtn = document.getElementById("shuffle");
+var forwardBtn = document.getElementById("forward");
+var backwardBtn = document.getElementById("backward");
+var prevBtn = document.getElementById("prev");
+var nextBtn = document.getElementById("next");
+var progressDiv = document.getElementById("progress");
+
+function play(e) {
+	if (!isPlaying) {
+		// console.log('play');
+		e.target.src =
+		"https://snowleo208.github.io/100-Days-of-Code/7.%20Music%20Player/img/pause.svg";
+		e.target.alt = "Pause";
+		isPlaying = true;
+		document.getElementById(currentAudio).play();
+		showTime();
+	} else {
+		// console.log('pause');
+		e.target.src =
+		"https://snowleo208.github.io/100-Days-of-Code/7.%20Music%20Player/img/play.svg";
+		e.target.alt = "Play";
+		document.getElementById(currentAudio).pause();
+		isPlaying = false;
+		clearInterval(timer);
+	}
+}
+
+function changeBar() {
+	var audio = document.getElementById(currentAudio);
+	var percentage = (audio.currentTime / audio.duration).toFixed(3);
+	progressBar.style.transition = "";
+	// console.log(audio.currentTime);
+
+	//set current time
+	var minute = Math.floor(audio.currentTime / 60);
+	var second = Math.floor(audio.currentTime % 60);
+	var leftTime = audio.duration - audio.currentTime;
+	currentTimeIndicator.innerHTML =
+	("0" + minute).substr(-2) + ":" + ("0" + second).substr(-2);
+
+	//set left time
+	var leftMinute = Math.floor(leftTime / 60);
+	var leftSecond = Math.floor(leftTime % 60);
+
+	leftTimeIndicator.innerHTML =
+	("0" + leftMinute).substr(-2) + ":" + ("0" + leftSecond).substr(-2);
+
+	//set time bar
+	progressBar.style.width = percentage * 100 + "%";
+}
+
+function showTime() {
+	timer = setInterval(function () {return changeBar();}, 500);
+}
+
+function nextMusic(mode) {
+	playBtn.src =
+	"https://snowleo208.github.io/100-Days-of-Code/7.%20Music%20Player/img/play.svg";
+	playBtn.alt = "Play";
+	document.getElementById(currentAudio).pause();
+	isPlaying = false;
+	clearInterval(timer);
+
+	if (mode === "next") {
+		currentId = currentId + 1 &gt; list.length - 1 ? 0 : currentId + 1;
+		init();
+	} else {
+		currentId = currentId - 1 &lt; 0 ? list.length - 1 : currentId - 1;
+		init();
+	}
+}
+
+function shuffle(e) {
+	isShuffle = !isShuffle;
+	if (isShuffle) {
+		e.target.parentNode.classList.add("is-loop");
+	} else {
+		e.target.parentNode.classList.remove("is-loop");
+	}
+}
+
+function backward() {
+	var audio = document.getElementById(currentAudio);
+	audio.currentTime -= 5;
+	if (!isPlaying) {
+		changeBar();
+	}
+}
+
+function forward() {
+	var audio = document.getElementById(currentAudio);
+	audio.currentTime += 5;
+	if (!isPlaying) {
+		changeBar();
+	}
+}
+
+function stopMusic() {
+	playBtn.src =
+	"https://snowleo208.github.io/100-Days-of-Code/7.%20Music%20Player/img/play.svg";
+	playBtn.alt = "Play";
+	isPlaying = false;
+}
+
+function goToNextMusic() {
+	var newId = currentId;
+	while (isShuffle &amp;&amp; !loopOne &amp;&amp; newId === currentId) {
+		newId = Math.floor(Math.random() * Math.floor(list.length - 1));
+	}
+
+	if (!isShuffle &amp;&amp; !loopOne) {
+		currentId = currentId + 1 &gt; list.length - 1 ? 0 : currentId + 1;
+	}
+	if (!isShuffle &amp;&amp; loopOne) {
+		currentId = currentId;
+	}
+
+	if (isShuffle) {
+		currentId = newId;
+	}
+	init();
+	document.getElementById(currentAudio).play();
+}
+
+function loop(e) {
+	var audio = document.getElementById(currentAudio);
+
+	if (!isLoop &amp;&amp; !loopOne) {
+		isLoop = true;
+		loopOne = false;
+		// console.log('is loop');
+		e.target.parentNode.classList.add("is-loop");
+		e.target.src =
+		"https://snowleo208.github.io/100-Days-of-Code/7.%20Music%20Player/img/loop.svg";
+		audio.loop = false;
+		audio.onended = function (e) {return goToNextMusic();};
+		console.log(isLoop, loopOne);
+	} else if (isLoop &amp;&amp; !loopOne) {
+		// console.log('is loop one');
+		isLoop = true;
+		loopOne = true;
+		e.target.parentNode.classList.add("is-loop");
+		e.target.src =
+		"https://snowleo208.github.io/100-Days-of-Code/7.%20Music%20Player/img/loopone.svg";
+		audio.loop = true;
+		audio.onended = function (e) {return goToNextMusic();};
+		console.log(isLoop, loopOne);
+	} else {
+		// console.log('not loop');
+		isLoop = false;
+		loopOne = false;
+		e.target.parentNode.classList.remove("is-loop");
+		e.target.src =
+		"https://snowleo208.github.io/100-Days-of-Code/7.%20Music%20Player/img/loop.svg";
+		audio.loop = false;
+		audio.onended = function (e) {return stopMusic();};
+		console.log(isLoop, loopOne);
+	}
+}
+
+function progress(e) {
+	var audio = document.getElementById(currentAudio);
+	//get current position and minus progress bar's x position to get current position in progress bar
+	var pos =
+	(e.pageX - progressDiv.getClientRects()[0].x) /
+	progressDiv.getClientRects()[0].width;
+	audio.currentTime = pos * audio.duration;
+	changeBar();
+}
+
+function init() {
+	//reset music duration and setup audio
+	var audio =
+	document.getElementById(currentAudio) === null ?
+	new Audio() :
+	document.getElementById(currentAudio);
+	audio.src = list[currentId].url;
+	audio.id = currentAudio;
+	document.getElementById(currentAudio) === null ?
+	document.body.appendChild(audio) :
+	"";
+
+	progressBar.style.transition = "none";
+	progressBar.style.width = "0%";
+	document.getElementById(currentAudio).currentTime = 0;
+
+	title.innerHTML = list[currentId].title;
+	author.innerHTML = list[currentId].author;
+	cover.src = list[currentId].cover;
+
+	//set current time
+	audio.addEventListener("loadedmetadata", function () {
+		var leftMinute = Math.floor(audio.duration / 60);
+		var leftSecond = Math.floor(audio.duration % 60);
+		currentTimeIndicator.innerHTML = "00:00";
+		leftTimeIndicator.innerHTML =
+		("0" + leftMinute).substr(-2) + ":" + ("0" + leftSecond).substr(-2);
+		progressBar.style.transition = "";
+	});
+
+	//set loop
+	document.getElementById(currentAudio).onended = function (e) {return goToNextMusic(e);};
+}
+
+playBtn.addEventListener("click", play);
+loopBtn.addEventListener("click", loop);
+
+shuffleBtn.addEventListener("click", shuffle);
+forwardBtn.addEventListener("click", forward);
+backwardBtn.addEventListener("click", backward);
+
+prevBtn.addEventListener("click", function (e) {return nextMusic("prev");});
+nextBtn.addEventListener("click", function (e) {return nextMusic("next");});
+progressDiv.addEventListener("click", function (e) {
+	progress(e);
+});
+
+init();
+})();
+</script>
+</html>

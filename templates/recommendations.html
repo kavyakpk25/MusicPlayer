@@ -1,0 +1,25 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style_player.css') }}">
+<div align='center'>
+	<div style="font-size: 3rem; font-family: 'Times New Roman', Times, serif;" align='center'>Recommended Songs</div>
+  <div id='space'></div>
+    <ul style=" width:50%;align-items: left;" class="w3-ul w3-card-4"  >
+
+      {% for song in songs %}
+        <li class="w3-padding-small" >
+          <a id="song" href={{ url_for('music_player_recommender', song_name=song.song_name) }} style="font-family: fantasy;font-size: 30px;">{{ song.song_name }} ~ {{song.artist}}</a>
+        </li>
+
+          <br>
+
+      {% endfor %}
+    </ul>
+
+</div>
+
+{% endblock %}

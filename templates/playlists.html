@@ -14,19 +14,17 @@
 	  resize: vertical;
 	}
 	
-	label {
-	  padding: 12px 12px 12px 0;
-	  display: inline-block;
-	}
+
 	
 	input[type=submit] {
-	  background-color: #4CAF50;
-	  color: white;
+	  background-color: #e5ece5;
+	  color: black;
 	  padding: 12px 20px;
+	  width: 200px;
 	  border: none;
 	  border-radius: 4px;
 	  cursor: pointer;
-	  float: right;
+	  font-size: 2rem;
 	}
 	
 	input[type=submit]:hover {
@@ -54,12 +52,15 @@
 
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <div align='center'>
-    <h1> My Playlists </h1>
+	<div style="font-size: 3rem; font-family: 'Times New Roman', Times, serif;" align='center'>My Playlists</div>
 	<div id="space"></div>
 		<ul class="w3-ul w3-card-4"  style="width:30%">
 		{% for p_name in playlists %}	
 
-			<li><a href={{ url_for('songs_page', playlist_name=p_name) }}>{{p_name}}</a></li>
+		<li class="w3-padding-small" > <a href={{ url_for('songs_page', playlist_name=p_name) }} style="font-family: fantasy;font-size: 30px;">{{p_name}}</a></li>
+
+		<a href = '/delete/{{p_name}}'>Delete</a>
+
 
 		{% endfor %}
 		</ul>
@@ -67,19 +68,25 @@
 		
 
 <div id='space'></div>
-	<div class="container">
-		<h3 align="center"> Create a New Playlist! </h3>
+<div align='center'>
+		<div style="box-shadow: 10px 10px 10px 10px rgba(0,0,0,0.2); width:55%;height: 300px;" >
+		
+		<div style="font-size: 3rem; font-family: 'Times New Roman', Times, serif;" align='center'>Create a New Playlist!</div>
+		<br>
+		<br>
+
 
 		<form onsubmit="myFunction()" id = "myForm" method="post">
 			<div class="row">
 				<div class="col-25"> </div>
 		 		 <div class="col-25">
-					<label for="fname">Enter Playlist Name : </label>
+					<label><div style="font-size: 2rem; font-family: 'Times New Roman', Times, serif;" align='center'>Enter the Playlist Name:   </div> </label>
 		  		</div>
 		  		<div class="col-25">
 					<input type="text" id = "playlist_name" name = "playlist_name" placeholder="New Playlist name..">
 		  		</div>
-		  		<div class="col-25">
+		  		<div class="col-25" style="font-size: 1rem;color: red;">
+					  {{message}}
 				</div>
 		  		<div class="col-25"> </div>
 			</div>
@@ -87,14 +94,11 @@
 		<div id="space"></div>
 		
 		<div class="row">
-			<div class="col-25"> </div>
-			<div class="col-25">
-			<input align="center" type="submit" value="Submit">
-			</div>
+			<input type="submit" value="Submit">
 			<br>
 		</div>
-
-	</div>	
+	</div>
+	</div>
 </form>
 
 <script>
@@ -102,11 +106,13 @@
 	function myFunction() 
 	{
 		name = document.getElementById("playlist_name").value;
-
+		var song_list = {{ playlists|tojson }} ; 
+		// while(song_list.includes(name))
+		// 	name=prompt("This playlist already exists, please enter a new name : ");
+		//alert(name);
 		form = document.getElementById("myForm");
-		alert(name)
 		path = "/addsong/".concat(name);
-		form.setAttribute("action", path)
+		form.setAttribute("action", path);
 	}
 
 </script>

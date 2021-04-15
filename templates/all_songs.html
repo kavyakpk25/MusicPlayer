@@ -1,26 +1,24 @@
 {% extends 'base.html' %}
-<style>
-#song a:hover {
-  background-color: grey;
-}
-</style>
+
 {% block content %}
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style_player.css') }}">
 <div align='center'>
-	<h1>  All songs </h1>
+	<div style="font-size: 3rem; font-family: 'Times New Roman', Times, serif;" align='center'>My songs</div>
   <div id='space'></div>
-    <ul style="background-color: lightcoral;; width:30%;" class="w3-ul w3-card-4"  >
-     
+    <ul style=" width:50%;align-items: left;" class="w3-ul w3-card-4"  >
 
       {% for song in songs %}
-        <li class="w3-padding-small"> 
-          <a id="song" href={{ url_for('music_player', song_name=song) }} style="font-family: fantasy;font-size: 30px;">{{ song }}</a>
+        <li class="w3-padding-small" > 
+          <a id="song" href={{ url_for('music_player', song_name=song.song_name) }} style="font-family: fantasy;font-size: 30px;">{{ song.song_name }}   ~ {{song.artist}}</a>
         </li>
-          <br>
+        <a href = 'allsongs/delete/{{song.songid}}'>Delete</a>
+        <br>
          
       {% endfor %}
     </ul> 
 
 </div>
+
 {% endblock %}
